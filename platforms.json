@@ -1,10 +1,22 @@
 [
   {
     "group-id": "io.quarkus",
+    "artifact-id": "quarkus-bom",
+    "releases": [
+      {
+        "version": "1.10.1.Final"
+      },
+      {
+        "version": "999-SNAPSHOT"
+      }
+    ]
+  },
+  {
+    "group-id": "io.quarkus",
     "artifact-id": "quarkus-universe-bom",
     "releases": [
       {
-        "version": "1.9.1.Final"
+        "version": "999-SNAPSHOT"
       }
     ]
   }

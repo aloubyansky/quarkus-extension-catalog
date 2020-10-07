@@ -4,7 +4,7 @@
     "releases": [
         {
           "version": "0.0.5",
-          "quarkus-core":  "1.9.0.CR1"
+          "quarkus-core":  "999-SNAPSHOT"
         }
       ]
   }
