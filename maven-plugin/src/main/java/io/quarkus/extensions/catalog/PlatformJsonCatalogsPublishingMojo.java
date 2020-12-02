@@ -148,10 +148,6 @@ public class PlatformJsonCatalogsPublishingMojo extends AbstractMojo {
 		
 		for(Map.Entry<String, Map<AppArtifactKey, ArtifactVersion>> corePlatforms : platformBuilders.entrySet()) {
 			String quarkusCoreVersion = corePlatforms.getKey();
-			if(quarkusCoreVersion.endsWith("-SNAPSHOT")) {
-				quarkusCoreVersion = quarkusCoreVersion.substring(0, quarkusCoreVersion.length() - "SNAPSHOT".length()) + "DEV";
-			}
-
 			final Path versionDir = jsonRootDir.resolve(quarkusCoreVersion);
 			if(!Files.exists(versionDir)) {
 				try {
@@ -159,6 +155,10 @@ public class PlatformJsonCatalogsPublishingMojo extends AbstractMojo {
 				} catch (IOException e) {
 					throw new MojoExecutionException("Failed to create directory " + versionDir);
 				}
+			}
+
+			if(quarkusCoreVersion.endsWith("-SNAPSHOT")) {
+				quarkusCoreVersion = quarkusCoreVersion.substring(0, quarkusCoreVersion.length() - "SNAPSHOT".length()) + "DEV";
 			}
 
 			final DefaultPlatforms.Builder platformBuilder = DefaultPlatforms.builder();

@@ -222,10 +222,14 @@ public class NonPlatformJsonCatalogsPublishingMojo extends AbstractMojo {
 				Path versionedDir = Files.createDirectory(outputPath.resolve(version));
 				ImmutableRegistry.Builder versionedRegistryBuilder = ImmutableRegistry.builder();
 				List<ImmutableExtension> extensions = registry.getExtensions().stream().filter(
-						e -> e.getReleases().stream().anyMatch(r -> r.getPlatforms().isEmpty() && version.equals(r.getRelease().getQuarkusCore())))
+						e -> e.getReleases().stream().anyMatch(r -> r.getPlatforms().isEmpty()
+								&& (version.equals(r.getRelease().getQuarkusCore())
+										|| r.getRelease().getCompatibleQuarkusCore().contains(version))))
 						.map(e -> ImmutableExtension.builder().from(e)
 								.releases(e.getReleases().stream()
-										.filter(r -> version.equals(r.getRelease().getQuarkusCore())).collect(toList()))
+										.filter(r -> version.equals(r.getRelease().getQuarkusCore())
+												|| r.getRelease().getCompatibleQuarkusCore().contains(version))
+										.collect(toList()))
 								.build())
 						.collect(toList());
 				Set<String> categoriesIds = extensions.stream()
@@ -238,7 +242,9 @@ public class NonPlatformJsonCatalogsPublishingMojo extends AbstractMojo {
 								.filter(p -> p.getReleases().stream().anyMatch(r -> version.equals(r.getQuarkusCore())))
 								.map(p -> ImmutablePlatform.builder().from(p)
 										.releases(p.getReleases().stream()
-												.filter(r -> version.equals(r.getQuarkusCore())).collect(toList()))
+												.filter(r -> version.equals(r.getQuarkusCore())
+														|| r.getCompatibleQuarkusCore().contains(version))
+												.collect(toList()))
 										.build())
 								.collect(toList()))
 						.addAllExtensions(extensions).build();
